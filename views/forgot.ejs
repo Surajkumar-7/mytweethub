@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Forgot Password</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #333446;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .box {
+      background: #7F8CAA;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      width: 350px;
+    }
+
+    input {
+      width: 93.5%;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 100%;
+      background: #B8CFCE;
+      border: none;
+      color: white;
+      padding: 12px;
+      margin-top: 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #49938f;
+    }
+    h2{
+        padding-left: 20%;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Forgot Password</h2>
+    <form action="/forgot-password" method="POST">
+      <label>Enter your registered email</label>
+      <input type="email" name="email" placeholder="Email" required />
+      <button type="submit">Send Reset Link</button>
+    </form>
+  </div>
+</body>
+</html>

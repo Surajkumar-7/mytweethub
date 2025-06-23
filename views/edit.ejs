@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Tweet</title>
+</head>
+<body>
+  <h2>Edit your tweet</h2>
+  <form action="/edit/<%= tweet.id %>" method="POST">
+    <textarea name="content" rows="4" cols="50"><%= tweet.content %></textarea>
+    <br>
+    <button type="submit">Update</button>
+    <a href="/feed">Cancel</a>
+  </form>
+</body>
+</html>

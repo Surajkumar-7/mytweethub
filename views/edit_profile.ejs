@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: #333446;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background: #7F8CAA;
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 10px;
+            background-color: #B8CFCE;
+            color: black;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <h2>Edit Profile</h2>
+        <form action="/edit-profile" method="POST" enctype="multipart/form-data">
+            <label for="bio">Bio</label><br>
+            <textarea name="bio" id="bio" rows="4"
+                style="width:100%; resize: vertical;"><%= user.bio || '' %></textarea><br><br>
+
+
+            <label for="avatar">Avatar (optional)</label>
+            <input type="file" name="avatar">
+
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Twitter Feed</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+  <!-- 💅 Inline for quick testing. Move to feed.css later if you wish -->
+  <style>
+    :root {
+      --bg-main: #2E2F3E;
+      --card: #7F8CAA;
+      --accent: #B8CFCE;
+      --green-btn: #4CAF50;
+    }
+
+    /* RESET + BASE ------------------------------------------------------- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-main);
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    /* WRAPPER ------------------------------------------------------------ */
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px 16px 60px;
+    }
+
+    /* HEADER ------------------------------------------------------------- */
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* SEARCH ------------------------------------------------------------- */
+    .search-bar {
+      display: flex;
+      gap: 10px;
+      flex: 1 1 350px;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      font-size: 14px;
+    }
+
+    .search-bar button {
+      padding: 10px 14px;
+      background: var(--green-btn);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    /* NAV LINKS ---------------------------------------------------------- */
+    .nav-links {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      font-size: 14px;
+    }
+
+    /* WELCOME + TWEET FORM ---------------------------------------------- */
+    .welcome {
+      font-size: 20px;
+      margin: 22px 0 10px;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      font-size: 14px;
+      resize: vertical;
+      background: #f6f6f6;
+      color: #000;
+    }
+
+    .tweet-btn {
+      background: var(--accent);
+      border: none;
+      border-radius: 6px;
+      padding: 10px 20px;
+      color: #000;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .tweet-btn:hover{
+      background-color: #49938f;
+    }
+
+    /* TWEET CARD --------------------------------------------------------- */
+    .tweet {
+      background: var(--card);
+      border-radius: 10px;
+      padding: 15px 18px;
+      margin-top: 20px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .12);
+    }
+
+    .tweet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tweet .username {
+      font-weight: bold;
+    }
+
+    .tweet .time {
+      font-size: 12px;
+      color: #111;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .actions button {
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    /* COMMENTS ----------------------------------------------------------- */
+    .comment-section {
+      margin-top: 12px;
+    }
+
+    .comment {
+      background: #f0f2f5;
+      color: #000;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 14px;
+      margin-top: 6px;
+    }
+
+    .comment-form textarea {
+      margin-top: 6px;
+      background: #fff;
+    }
+
+    .comment-form button {
+      background: var(--accent);
+      border: none;
+      border-radius: 6px;
+      padding: 8px 14px;
+      cursor: pointer;
+      margin-top: 6px;
+      color: #000;
+    }
+
+    /* RESPONSIVE --------------------------------------------------------- */
+    @media(max-width:600px) {
+      .logo {
+        font-size: 22px;
+      }
+
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        margin-top: 8px;
+      }
+
+      .search-bar {
+        flex: 1 1 100%;
+        order: 1;
+      }
+    }
+    .combtn:hover{
+      background-color:#49938f ;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="logo">🐦 <span>MyTweetHub</span></div>
+
+      <form action="/search" method="GET" class="search-bar">
+        <input type="text" name="username" placeholder="Search by username…" required>
+        <button type="submit">🔍</button>
+      </form>
+
+      <div class="nav-links">
+        <a href="/dm">💬 DMs</a>
+        <a href="/user/<%= username %>">👤 Profile</a>
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+
+    <!-- WELCOME -->
+    <p class="welcome">Welcome, <%= username %>!</p>
+
+    <!-- TWEET FORM -->
+    <form class="tweet-form" action="/tweet" method="POST">
+      <textarea name="content" rows="3" placeholder="What's happening?" required></textarea>
+      <button class="tweet-btn" type="submit">Tweet</button>
+    </form>
+
+    <!-- TWEETS -->
+    <% tweets.forEach(tweet=> { %>
+      <div class="tweet">
+        <div class="tweet-header">
+          <a class="username" href="/user/<%= tweet.username %>">
+            <%= tweet.username %>
+          </a>
+          <span class="time">
+            <%= new Date(tweet.time).toLocaleString() %>
+          </span>
+        </div>
+
+        <p>
+          <%= tweet.content %>
+        </p>
+
+        <div class="actions">
+          <form class="like-form" data-id="<%= tweet.id %>">
+            <button type="submit" class="like-btn">
+              ❤️ <span class="like-count">
+                <%= tweet.likes %>
+              </span>
+            </button>
+          </form>
+
+
+          <form action="/edit/<%= tweet.id %>" method="GET">
+            <button>✏️</button>
+          </form>
+
+          <% if (tweet.username===username) { %>
+            <form action="/delete/<%= tweet.id %>" method="POST">
+              <button>🗑️</button>
+            </form>
+            <% } %>
+        </div>
+
+        <!-- COMMENTS -->
+        <div class="comment-section">
+          <% if (tweet.comments.length===0) { %>
+            <p>No comments yet.</p>
+            <% } else { %>
+              <% tweet.comments.forEach(c=> { %>
+                <div class="comment">
+                  <%= c.username %>: <%= c.comment %>
+                </div>
+                <% }) %>
+                  <% } %>
+
+                    <form action="/comment/<%= tweet.id %>" method="POST" class="comment-form">
+                      <textarea name="comment" rows="2" placeholder="Add a comment…" required></textarea>
+                      <button type="submit" class="combtn">Comment</button>
+                    </form>
+        </div>
+      </div>
+      <% }) %>
+
+  </div>
+  <%- include("partials/footer") %>
+
+
+    <!-- Smooth scroll-position restore (unchanged) -->
+    <script>
+      document.querySelectorAll("form").forEach(f => {
+        f.addEventListener("submit", () => localStorage.setItem("scrollPos", window.scrollY));
+      });
+      window.addEventListener("load", () => {
+        const y = localStorage.getItem("scrollPos");
+        if (y) { window.scrollTo(0, +y); localStorage.removeItem("scrollPos"); }
+      });
+
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".like-form").forEach(form => {
+          form.addEventListener("submit", async e => {
+            e.preventDefault();                                // stop page reload
+            const tweetId = form.dataset.id;                   // tweet ID
+
+            const res = await fetch(`/like/${tweetId}`, {     // call backend
+              method: "POST"
+            });
+            if (!res.ok) return alert("Like failed");
+
+            const data = await res.json();                     // { likes: n }
+            form.querySelector(".like-count").textContent = data.likes;
+          });
+        });
+      });
+    </script>
+</body>
+
+</html>

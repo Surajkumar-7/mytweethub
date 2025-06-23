@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Us - MyTweetHub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2E2F3E;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #7F8CAA;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #ffff;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 16px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        input,
+        textarea {
+            margin-top: 6px;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: #B8CFCE;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #49938f;
+        }
+
+        .footer-link {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 14px;
+        }
+        a{
+            color: #ffff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Contact Us</h1>
+        <p>If you have any questions, suggestions, or issues, feel free to reach out to us through this form or via
+            email.</p>
+
+        <form method="POST" action="/contact">
+            <label for="name">Your Name</label>
+            <input type="text" name="name" id="name" required>
+
+            <label for="email">Your Email</label>
+            <input type="email" name="email" id="email" required>
+
+            <label for="message">Message</label>
+            <textarea name="message" id="message" rows="5" required></textarea>
+
+            <button type="submit">Send Message</button>
+        </form>
+
+        <div class="footer-link">
+            <p>Prefer email? Reach us at <a href="mailto:support@mytweethub.in">support@mytweethub.in</a></p>
+            <a href="/help">← Visit Help Center</a>
+        </div>
+    </div>
+</body>
+
+</html>

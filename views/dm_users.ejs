@@ -1,0 +1,56 @@
+<!-- views/dm_users.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Direct Messages</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #333446;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #7F8CAA;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #ffff;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin: 10px 0;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    a {
+      text-decoration: none;
+      color: #ffff;
+      font-weight: bold;
+    }
+    .back-link {
+      margin-top: 20px;
+      display: inline-block;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>💬 Start a Chat</h2>
+    <ul>
+      <% users.forEach(u => { %>
+        <li><a href="/dm/<%= u.id %>"><%= u.username %></a></li>
+      <% }) %>
+    </ul>
+    <a class="back-link" href="/feed">← Back to Feed</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Login | Twitter Feed</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #333446;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      background-color: #7F8CAA;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 350px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 92.5%;
+      padding: 12px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    button {
+      background-color: #B8CFCE;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    button:hover{
+      background-color: #49938f;
+    }
+
+    p {
+      margin-top: 15px;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .forgot-password {
+      text-align: right;
+      margin-bottom: 15px;
+      margin-top: -10px;
+    }
+
+    .forgot-password a {
+      color: #f1f1f1;
+      font-size: 14px;
+    }
+
+    .forgot-password a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <% if (typeof reset !=='undefined' && reset==='sent' ) { %>
+      <div style="background: #d4edda; color: #155724; padding: 10px; margin-bottom: 15px; border-radius: 6px;">
+        ✅ Reset link sent! Check your email.
+      </div>
+      <% } %>
+
+        <h1>🔑 Login</h1>
+        <form action="/login" method="POST">
+          <input type="text" name="loginInput" placeholder="Username or Email" required><br>
+          <input type="password" name="password" placeholder="Password" required><br>
+
+          <div class="forgot-password">
+            <a href="/forgot-password">Forgot password?</a>
+          </div>
+
+          <button type="submit">Login</button>
+        </form>
+
+        <p>Don't have an account? <a href="/signup">Sign up</a></p>
+  </div>
+</body>
+
+</html>
