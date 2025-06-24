@@ -28,25 +28,24 @@ io.on("connection", (socket) => {
   });
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.use(helmet());
 
-const db = mysql.createConnection({
+const connection = mysql.createConnection({
   host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  port: process.env.DB_PORT
 });
 
-db.connect((err) => {
+connection.connect((err) => {
   if (err) {
-    console.error('❌ Database connection failed:', err);
+    console.error("❌ Database connection failed:", err);
   } else {
-    console.log('✅ Connected to MySQL');
+    console.log("✅ Connected to the MySQL database");
   }
 });
-
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
