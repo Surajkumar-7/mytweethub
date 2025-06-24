@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mysql = require("mysql2");
@@ -10,7 +11,6 @@ const helmet = require("helmet");
 const multer = require("multer");
 const http = require("http");
 const socketio = require("socket.io");
-
 const app = express();
 
 const server = http.createServer(app);
@@ -31,29 +31,28 @@ io.on("connection", (socket) => {
 const PORT = 3000;
 app.use(helmet());
 
-app.use(
-  session({
-    secret: "replace-this-secret",
-    resave: false,
-    saveUninitialized: false
-  })
-);
-
-// MySQL connection
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "@Sunisha620",
-  database: "twitter_feed"
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT
 });
 
-db.connect(err => {
+db.connect((err) => {
   if (err) {
-    console.error("❌ DB connection error:", err);
-    process.exit(1);
+    console.error('❌ Database connection failed:', err);
+  } else {
+    console.log('✅ Connected to MySQL');
   }
-  console.log("✅ Connected to MySQL");
 });
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}));
+
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
