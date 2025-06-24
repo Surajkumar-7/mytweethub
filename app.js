@@ -704,7 +704,6 @@ app.post("/like/:id", requireAuth, (req, res) => {
 });
 
 
-server.listen(5432, () => {
-  console.log(`🚀 MyTweetHub running at http://localhost:5432`);
-});
-
+server.listen(PORT,'0.0.0.0', () =>
+  console.log(`🚀 MyTweetHub running at http://localhost:${PORT}`)
+);
