@@ -284,7 +284,7 @@
 
         <!-- COMMENTS -->
         <div class="comment-section">
-          <% if (tweet.comments.length===0) { %>
+         <% if (!tweet.comments || tweet.comments.length === 0) { %>
             <p>No comments yet.</p>
             <% } else { %>
               <% tweet.comments.forEach(c=> { %>
