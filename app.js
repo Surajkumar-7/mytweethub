@@ -12,6 +12,7 @@ const multer = require("multer");
 const http = require("http");
 const socketio = require("socket.io");
 const app = express();
+const MySQLStore = require("express-mysql-session")(session);
 
 
 
@@ -56,17 +57,26 @@ pool.getConnection((err, connection) => {
 });
 
 module.exports = pool;
+
+const sessionStore = new MySQLStore({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
+});
+
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+  store: sessionStore,
   cookie: {
-    secure: false, // Important for Railway free subdomain (HTTP)
-    maxAge: 1000 * 60 * 60 * 24, // Optional: Session lasts 1 day
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production"
   }
 }));
-
-
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
