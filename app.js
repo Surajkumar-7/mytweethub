@@ -58,6 +58,8 @@ pool.getConnection((err, connection) => {
 
 module.exports = pool;
 
+app.set("trust proxy", 1); // 🛡️ Required for Railway (proxied requests)
+
 const sessionStore = new MySQLStore({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -71,12 +73,14 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: sessionStore,
+  rolling: true, // ✅ Refresh session cookie on each request
   cookie: {
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production"
+    maxAge: 7 * 24 * 60 * 60 * 1000, // ✅ 7 days
+    sameSite: "lax",                 // ✅ Protects against CSRF
+    secure: process.env.NODE_ENV === "production" // ✅ Only secure in production
   }
 }));
+
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
