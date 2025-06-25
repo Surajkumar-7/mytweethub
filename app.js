@@ -349,7 +349,7 @@ app.get("/feed", requireAuth, (req, res) => {
     const ids = tweets.map(t => t.id);
     const commentSql =
       "SELECT * FROM comments WHERE tweet_id IN (?) ORDER BY time ASC";
-    connection.query(commentSql, [ids], (err, comments) => {
+    pool.query(commentSql, [ids], (err, comments) => {
       if (err) return res.send("DB error loading comments");
 
       // group comments by tweet_id
