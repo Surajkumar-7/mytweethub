@@ -12,7 +12,7 @@ const multer = require("multer");
 const http = require("http");
 const socketio = require("socket.io");
 const app = express();
-// const pool = require('./db');
+
 
 
 
@@ -59,8 +59,13 @@ module.exports = pool;
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {
+    secure: false, // Important for Railway free subdomain (HTTP)
+    maxAge: 1000 * 60 * 60 * 24, // Optional: Session lasts 1 day
+  }
 }));
+
 
 
 app.set("view engine", "ejs");
@@ -713,6 +718,6 @@ app.post("/like/:id", requireAuth, (req, res) => {
 });
 
 
-server.listen(PORT,'0.0.0.0', () =>
+server.listen(PORT, '0.0.0.0', () =>
   console.log(`🚀 MyTweetHub running at http://localhost:${PORT}`)
 );
