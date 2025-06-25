@@ -196,19 +196,17 @@ app.get('/search', (req, res) => {
 
 
 // redirect root → signup
-app.get("/", (req, res) => {
-  if (!req.session.username) {
-    return res.redirect("/login");
-  }
-
+app.get("/", requireAuth, (req, res) => {
   pool.query("SELECT * FROM tweets ORDER BY time DESC", (err, tweets) => {
     if (err) throw err;
+
     res.render("index", {
       tweets: tweets,
       username: req.session.username
     });
   });
 });
+
 
 app.get("/signup", (req, res) => res.render("signup"));
 
