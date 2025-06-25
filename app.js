@@ -203,19 +203,36 @@ app.post("/signup", async (req, res) => {
   if (!username || !email || !password) return res.send("Missing fields");
 
   try {
-    const hashed = await bcrypt.hash(password, 10);
-    const sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-    pool.query(sql, [username, email, hashed], err => {
+    // 🔍 Step 1: Check if username or email already exists
+    const checkSql = "SELECT * FROM users WHERE email = ? OR username = ?";
+    pool.query(checkSql, [email, username], async (err, rows) => {
       if (err) {
-        console.error(err);
-        return res.send("Username or Email already exists.");
+        console.error("DB error during duplicate check:", err);
+        return res.send("Database error");
       }
-      res.redirect("/login");
+
+      if (rows.length > 0) {
+        return res.send("⚠️ Username or Email already exists");
+      }
+
+      // 🔒 Step 2: Hash password and insert
+      const hashed = await bcrypt.hash(password, 10);
+      const insertSql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+      pool.query(insertSql, [username, email, hashed], (err2) => {
+        if (err2) {
+          console.error("DB insert error:", err2);
+          return res.send("Error during signup.");
+        }
+
+        res.redirect("/login");
+      });
     });
   } catch (e) {
-    res.send("Signup error");
+    console.error("Signup error:", e);
+    res.send("Signup failed");
   }
 });
+
 // 1. Show form
 app.get("/forgot-password", (req, res) => {
   res.render("forgot");
@@ -243,7 +260,7 @@ app.post("/forgot-password", (req, res) => {
       }
     });
 
-    const resetLink = `http://localhost:3000/reset-password/${token}`;
+    const resetLink = `https://mytweethub-production.up.railway.app/reset-password/${token}`;
     const mailOptions = {
       from: "Twitter Feed <yourgmail@gmail.com>",
       to: email,
