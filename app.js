@@ -247,35 +247,43 @@ app.post("/forgot-password", (req, res) => {
 
   const sql = "UPDATE users SET reset_token = ?, reset_expires = ? WHERE email = ?";
   pool.query(sql, [token, expires, email], (err, result) => {
-    if (err || result.affectedRows === 0) return res.send("Email not found.");
+    if (err) {
+      console.error("❌ DB error during token update:", err);
+      return res.send("Database error.");
+    }
 
-    // Send email using nodemailer
+    if (result.affectedRows === 0) {
+      console.log("⚠️ No user found with that email.");
+      return res.send("Email not found.");
+    }
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: process.env.EMAIL,
         pass: process.env.EMAIL_PASSWORD
-      }, tls: {
+      },
+      tls: {
         rejectUnauthorized: false
       }
     });
 
     const resetLink = `https://mytweethub-production.up.railway.app/reset-password/${token}`;
     const mailOptions = {
-      from: "Twitter Feed <yourgmail@gmail.com>",
+      from: `MyTweetHub <${process.env.EMAIL}>`,
       to: email,
-      subject: "Reset Your Twitter Feed Password",
+      subject: "Reset Your MyTweetHub Password",
       html: `<p>Click the link below to reset your password:</p><a href="${resetLink}">${resetLink}</a>`
     };
 
     transporter.sendMail(mailOptions, (err, info) => {
       if (err) {
-        console.error(err);
+        console.error("❌ Email sending error:", err);
         return res.send("Error sending email.");
       }
 
-      // ✅ Redirect to login page with a success query parameter
-      res.redirect("/login?reset=sent");
+      console.log("✅ Email sent successfully:", info.response);
+      res.send("Reset email sent!");
     });
   });
 });
